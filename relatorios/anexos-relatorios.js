@@ -1,44 +1,27 @@
 
-console.log("dentro entes.js");
+console.log("dentro anexos-relatorios.js");
 
 (function () {
   var myConnector = tableau.makeConnector();
 
   myConnector.getSchema = function (schemaCallback) {
     console.log("DENTRO FUNCAO getSchema");
+
     const myCols = [
-      { id: "cod_ibge",
-        dataType: tableau.dataTypeEnum.int,
-      },
-      { id: "ente",
-        dataType: tableau.dataTypeEnum.string,
-      },
-      { id: "capital",
-        dataType: tableau.dataTypeEnum.int,
-      },
-      { id: "regiao",
-        dataType: tableau.dataTypeEnum.string,
-      },
-      { id: "uf",
-        dataType: tableau.dataTypeEnum.string,
-      },
       { id: "esfera",
-        dataType: tableau.dataTypeEnum.string,
-      },
-      { id: "exercicio",
         dataType: tableau.dataTypeEnum.int,
       },
-      { id: "populacao",
-        dataType: tableau.dataTypeEnum.int,
-      },
-      { id: "cnpj",
+      { id: "demonstrativo",
         dataType: tableau.dataTypeEnum.string,
       },
+      { id: "anexo",
+        dataType: tableau.dataTypeEnum.int,
+      }
     ];
 
     let myTableSchema = {
-      id: "entes",
-      alias: "entes",
+      id: "anexos-relatorios",
+      alias: "anexos-relatorios",
       columns: myCols,
     };
 
@@ -58,8 +41,7 @@ console.log("dentro entes.js");
     do {
 
       $.getJSON(
-        //"https://apidatalake.tesouro.gov.br/ords/siconfi/tt/entes",
-        "https://apidatalake.tesouro.gov.br/ords/siconfi/tt/entes?&offset=" + offset,
+        "https://apidatalake.tesouro.gov.br/ords/siconfi/tt/anexos-relatorios?&offset=" + offset,
         function (resp) {
           console.log ("resp.limit = ", resp.limit);
           limitepaginacao = resp.limit; 
@@ -71,15 +53,9 @@ console.log("dentro entes.js");
 
           for (i = 0, len = resp.items.length; i < len; i++) {
             tableData.push({
-              cod_ibge: resp.items[i].cod_ibge,
-              ente: resp.items[i].ente,
-              capital: resp.items[i].capital,
-              regiao: resp.items[i].regiao,
-              uf: resp.items[i].uf,
               esfera: resp.items[i].esfera,
-              exercicio: resp.items[i].exercicio,
-              populacao: resp.items[i].populacao,
-              cnpj: resp.items[i].cnpj,
+              demonstrativo: resp.items[i].demonstrativo,
+              anexo: resp.items[i].anexo,
             });
           }
 
@@ -104,7 +80,7 @@ console.log("dentro entes.js");
 document.querySelector("#getData").addEventListener("click", getData);
 
 function getData() {
-  tableau.connectionName = "ENTE SINCONF";
+  tableau.connectionName = "ANEXOS-RELATORIOS SICONF";
   tableau.submit();
 }
 
